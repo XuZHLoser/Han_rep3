@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <bean id="userServiceId" class="com.xu.demo5.UserServiceImpl"></bean>
+    <bean id="myAspectId" class="com.xu.demo5.MyAspect"></bean>
+<!--切入点表达式
+    execution(* com.xu.demo5.*.*(..))
+    选择方法   返回值任意 包    类名任意 方法名任意 参数任意
+-->
+<!--springaop会自动根据目标类有没有接口来判断是使用cjlib还是jdk动态代理-->
+    <aop:config>
+        <aop:pointcut id="myPointCut" expression="bean(userServiceId)"/>
+        <aop:advisor advice-ref="myAspectId" pointcut-ref="myPointCut" />
+    </aop:config>
+</beans>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="personId" class="com.xu.demo6.Person">
+        <property name="name" value="jack"></property>
+        <property name="age">
+            <value>1234</value>
+        </property>
+        <property name="homeAddr" ref="homeAddr"></property>
+        <property name="companyAddr">
+            <ref bean="companyAddr"></ref>
+        </property>
+    </bean>
+    <bean id="homeAddr" class="com.xu.demo6.Address">
+        <property name="addr" value="hunan"></property>
+        <property name="tel" value="111"></property>
+    </bean>
+    <bean id="companyAddr" class="com.xu.demo6.Address">
+        <property name="addr" value="hubei"></property>
+        <property name="tel" value="119"></property>
+    </bean>
+</beans>

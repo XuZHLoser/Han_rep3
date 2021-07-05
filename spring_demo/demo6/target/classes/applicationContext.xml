@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd">
+<!--    datasource-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="com.mysql.cj.jdbc.Driver"></property>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/demo1?useSSL=false&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true"></property>
+        <property name="user" value="root"></property>
+        <property name="password" value="abcd"></property>
+    </bean>
+<!--    dao-->
+    <bean id="accountDao" class="com.xu.dao.AccountDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+<!--    service-->
+    <bean class="com.xu.service.AccountServiceImpl" id="accountService">
+        <property name="accountDao" ref="accountDao"/>
+
+    </bean>
+<!--    创建代理对象
+需要：1 proxyInterface接口
+     2 target目标类
+     3 transactionManager事务管理器
+     4 transactionAttributes事务详情
+     prop.key哪些方法要用当前事务配置
+     prop.text用于配置事务详情：PROPAGATION,ISOLATION,readonly , -Exception,+Exception
+                             传播行为      隔离级别    是否只读     有异常回滚    有异常提交
+-->
+    <bean class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean" id="proxyFactoryBean">
+        <property name="target" ref="accountService"/>
+        <property name="proxyInterfaces" value="com.xu.service.AccountService"/>
+        <property name="transactionManager" ref="transactionManager"/>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="transfer">PROPAGATION_REQUIRED,ISOLATION_DEFAULT</prop>
+            </props>
+        </property>
+    </bean>
+<!--    事务管理器-->
+    <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+</beans>

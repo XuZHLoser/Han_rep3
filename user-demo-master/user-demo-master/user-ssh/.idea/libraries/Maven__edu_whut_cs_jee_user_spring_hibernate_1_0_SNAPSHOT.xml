@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: edu.whut.cs.jee:user-spring-hibernate:1.0-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../../../localRep/edu/whut/cs/jee/user-spring-hibernate/1.0-SNAPSHOT/user-spring-hibernate-1.0-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../../../../../localRep/edu/whut/cs/jee/user-spring-hibernate/1.0-SNAPSHOT/user-spring-hibernate-1.0-SNAPSHOT-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../../../../localRep/edu/whut/cs/jee/user-spring-hibernate/1.0-SNAPSHOT/user-spring-hibernate-1.0-SNAPSHOT-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

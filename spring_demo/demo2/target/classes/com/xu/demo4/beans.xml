@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="userServiceId" class="com.xu.demo4.UserServiceImpl"></bean>
+    <bean id="myAspectId" class="com.xu.demo4.MyAspect"></bean>
+<!--不声明情况下，如果有接口采用JDK动态代理，没有就采用cjlib字节码增强 -->
+    <bean id="proxyServiceId" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="interfaces" value="com.xu.demo4.UserService"></property>
+        <property name="target" ref="userServiceId"></property>
+        <property name="interceptorNames" value="myAspectId"></property>
+    </bean>
+
+</beans>

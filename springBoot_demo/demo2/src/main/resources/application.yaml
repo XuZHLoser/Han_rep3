@@ -1,0 +1,51 @@
+#server:
+#  port: 8081
+#
+##对象
+#student1:
+#  name: xzh
+#  age: 23
+#
+##行内写法
+#student2: {name: xzh,age: 23}
+#
+##数组
+#pets1:
+#  - cat
+#  - dog
+#  - pig
+#
+#pets: [cat,dog,pig]
+
+#springboot的多环境配置，可以选择激活哪一个配置文件
+#分文件写法
+#spring:
+#  profiles:
+#    active: test
+
+#单文件写法：
+server:
+  port: 8081
+spring:
+  profiles:
+    active: dev
+---
+server:
+  port: 8082
+spring:
+  profiles: dev
+
+
+person:
+  name: xzh
+  age: 3
+  happy: false
+  birth: 2019/2/2
+  maps: {k1: v1,k2: v2}
+  list:
+    - code
+    - music
+    - girl
+  dog:
+    name: wc
+    age: 3

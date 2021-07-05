@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd">
+<!--    datasource-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="com.mysql.cj.jdbc.Driver"></property>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/demo1?useSSL=false&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true"></property>
+        <property name="user" value="root"></property>
+        <property name="password" value="abcd"></property>
+    </bean>
+<!--    dao-->
+    <bean id="accountDao" class="com.xu.dao.AccountDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+<!--    service-->
+    <bean class="com.xu.service.AccountServiceImpl" id="accountService">
+        <property name="accountDao" ref="accountDao"/>
+    </bean>
+
+    <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!--
+REQUIRED：支持当前事务，如果当前没有事务，就新建一个事务。这是最常见的选择。
+
+SUPPORTS：支持当前事务，如果当前没有事务，就以非事务方式执行。
+
+MANDATORY：支持当前事务，如果当前没有事务，就抛出异常。
+
+REQUIRES_NEW：新建事务，如果当前存在事务，把当前事务挂起。
+
+NOT_SUPPORTED：以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。
+
+NEVER：以非事务方式执行，如果当前存在事务，则抛出异常。
+
+NESTED：支持当前事务，如果当前事务存在，则执行一个嵌套事务，如果当前没有事务，就新建一个事务。
+
+-->
+<!--    事务详情（事务通知）:在aop筛选基础上，确定对筛选出来的方法使用什么样的事务-->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="transfer" propagation="REQUIRED" isolation="DEFAULT"/>
+        </tx:attributes>
+    </tx:advice>
+<!--    aop-->
+    <aop:config>
+        <aop:advisor advice-ref="txAdvice" pointcut="execution(* com.xu.service.*.*(..))"/>
+    </aop:config>
+</beans>
